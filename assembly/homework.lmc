@@ -4,4 +4,30 @@
 
 ;; CODE   =====================================
 
+        LDA ONE
+        STA COUNT
+        OUT
+LOOP    LDA COUNT
+        ADD ONE
+        OUT
+        STA COUNT
+        SUB TEN
+        BRZ END
+        BRA LOOP
+END     HLT
+COUNT   DAT 0
+ONE     DAT 1
+TEN     DAT 10
+
 ;; OUTPUT =====================================
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
