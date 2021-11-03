@@ -4,6 +4,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 #include "game.h"
 
 // STEP 9 - Synchronization: the GAME structure will be accessed by both players interacting
@@ -53,7 +54,26 @@ unsigned long long int xy_to_bitval(int x, int y) {
     //
     // you will need to use bitwise operators and some math to produce the right
     // value.
-    return 1ull;
+    unsigned long long x_bit = x;
+    unsigned long long y_bit = y;
+    unsigned long long val = 1ull;
+    unsigned long long increment = 0;
+
+    if (x >= 8 || x < 0 || y >= 8 || y < 0) {
+        return 0;
+    }
+
+    if (x == 0 && y == 0) {
+        return 1ull;
+    }
+
+    if (y > 0) {
+        increment = 8 * y;
+    }
+
+    increment += x;
+    val = val << increment;
+    return val;
 }
 
 struct game * game_get_current() {
@@ -84,4 +104,7 @@ int add_ship_vertical(player_info *player, int x, int y, int length) {
     // implement this as part of Step 2
     // returns 1 if the ship can be added, -1 if not
     // hint: this can be defined recursively
+
+
+
 }
