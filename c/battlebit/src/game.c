@@ -126,16 +126,36 @@ int add_ship_horizontal(player_info *player, int x, int y, int length) {
     // returns 1 if the ship can be added, -1 if not
     // hint: this can be defined recursively
 
-//    check to make sure that x and y are on the board (between 0 and 7)
-//      this needs to be in recursive so doesnt run off ^
 
-//      check if already ship at position x, y
+    // check to make sure that x and y are on the board (between 0 and 7)
+    // this needs to be in recursive so doesnt run off ^
+    if(!(x >= 0 && x <= 7 && y >= 0 && y <= 7)) {
+        return -1;
+    }
+
+    // check if already ship at position x, y
     unsigned long long int mask = xy_to_bitval(x, y);
-    player->ships;
+    unsigned long long int ship = player->ships;
+    unsigned long long int result = ship | mask;
 
-//      flip the players ships bit to 1
-//      recursively call add_ship_horizontal
-//      decrease ship length, manipualte x and y
+    if(ship == result) {
+        return -1;
+    }
+
+    // flip the players ships bit to 1
+    // SET RESULTS == player->SHIPS
+    player->ships = result;
+
+    // decrease ship length, manipulate x and y (first for 0 check)
+    x++;
+    length--;
+
+    // recursively call add_ship_horizontal
+    if(length == 0) {
+        add_ship_horizontal(player, x, y, length);
+    }
+
+    return 1;
 }
 
 int add_ship_vertical(player_info *player, int x, int y, int length) {
@@ -143,6 +163,33 @@ int add_ship_vertical(player_info *player, int x, int y, int length) {
     // returns 1 if the ship can be added, -1 if not
     // hint: this can be defined recursively
 
+    // check to make sure that x and y are on the board (between 0 and 7)
+    // this needs to be in recursive so doesnt run off ^
+    if(!(x >= 0 && x <= 7 && y >= 0 && y <= 7)) {
+        return -1;
+    }
 
+    // check if already ship at position x, y
+    unsigned long long int mask = xy_to_bitval(x, y);
+    unsigned long long int ship = player->ships;
+    unsigned long long int result = ship | mask;
 
+    if(ship == result) {
+        return -1;
+    }
+
+    // flip the players ships bit to 1
+    // SET RESULTS == player->SHIPS
+    player->ships = result;
+
+    // decrease ship length, manipulate x and y (first for 0 check)
+    y++;
+    length--;
+
+    // recursively call add_ship_horizontal
+    if(length == 0) {
+        add_ship_vertical(player, x, y, length);
+    }
+
+    return 1;
 }
