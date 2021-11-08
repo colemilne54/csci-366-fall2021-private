@@ -92,12 +92,50 @@ int game_load_board(struct game *game, int player, char * spec) {
     // slot and return 1
     //
     // if it is invalid, you should return -1
+
+
+//  bump loop by 3 everytime
+//    determine if length of a spec is fine (15 chars)
+//    strlen()
+//    char * current = spec;
+//    char ship = *current;
+//    char col = *(current + 1);
+//    char row = *(current + 2);
+//    do this in a loop
+//
+//    int colInt = 0; //somthing something
+//    int rowInt = 0; //something something
+//
+//    if (add_ship_horizonatl (playerInfo, colInt, rowInt, length) == -1) {
+//             return -1;
+//    }
+//
+//    player_info *playerInfo = &game->players[player];
+//
+//
+//    checks:
+//    keep track of ships we've seen
+//
+//    call add shi phoriz and vert
+//    if -1 return -1
+
 }
 
 int add_ship_horizontal(player_info *player, int x, int y, int length) {
     // implement this as part of Step 2
     // returns 1 if the ship can be added, -1 if not
     // hint: this can be defined recursively
+
+//    check to make sure that x and y are on the board (between 0 and 7)
+//      this needs to be in recursive so doesnt run off ^
+
+//      check if already ship at position x, y
+    unsigned long long int mask = xy_to_bitval(x, y);
+    player->ships;
+
+//      flip the players ships bit to 1
+//      recursively call add_ship_horizontal
+//      decrease ship length, manipualte x and y
 }
 
 int add_ship_vertical(player_info *player, int x, int y, int length) {
