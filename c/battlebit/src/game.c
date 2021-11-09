@@ -112,8 +112,8 @@ int game_load_board(struct game *game, int player, char * spec) {
         char ship = *(current + i);
         char col = *(current + 1 + i);
         char row = *(current + 2 + i);
-        int colInt = (int)col;
-        int rowInt = (int)row;
+        int colInt = atoi(&col);
+        int rowInt = atoi(&row);
 
         for (int i = 0; i < possible; i++) {
             if(ship == used[i]) {
@@ -129,17 +129,30 @@ int game_load_board(struct game *game, int player, char * spec) {
 
         if (ship >= 65 && ship <= 90) {
 
-            if(ship == "C") {
+//            if(strcmp(&ship, 'C') == 0) {
+//                length = 5;
+//            } else if(strcmp(&ship, 'B')) {
+//                length = 4;
+//            } else if(strcmp(&ship, 'D') || strcmp(&ship, 'S')) {
+//                length = 3;
+//            } else if(strcmp(&ship, 'P')) {
+//                length = 2;
+//            } else {
+//                return -1;
+//            }
+
+            if(ship == 'C') {
                 length = 5;
-            } else if(ship == "B") {
+            } else if(ship == 'B') {
                 length = 4;
-            } else if(ship == "D" || ship == "S") {
+            } else if(ship == 'D' || ship == 'S') {
                 length = 3;
-            } else if(ship == "P") {
+            } else if(ship == 'P') {
                 length = 2;
             } else {
-                return -1;
+                return ship;
             }
+//            TODO: ERROR HERE
 
 
             if (add_ship_horizontal(playerInfo, colInt, rowInt, length) == -1) {
@@ -151,13 +164,25 @@ int game_load_board(struct game *game, int player, char * spec) {
             count++;
         } else if(ship >= 97 && ship <= 122) {
 
-            if(ship == "c") {
+//            if(strcmp(&ship, 'c')) {
+//                length = 5;
+//            } else if(strcmp(&ship, 'b')) {
+//                length = 4;
+//            } else if(strcmp(&ship, 'd') || strcmp(&ship, 's')) {
+//                length = 3;
+//            } else if(strcmp(&ship, 'p')) {
+//                length = 2;
+//            } else {
+//                return -1;
+//            }
+
+            if(ship == 'c') {
                 length = 5;
-            } else if(ship == "b") {
+            } else if(ship == 'b') {
                 length = 4;
-            } else if(ship == "d" || ship == "s") {
+            } else if(ship == 'd' || ship == 's') {
                 length = 3;
-            } else if(ship == "p") {
+            } else if(ship == 'p') {
                 length = 2;
             } else {
                 return -1;
@@ -174,6 +199,8 @@ int game_load_board(struct game *game, int player, char * spec) {
             return -1;
         }
     }
+
+    return 1;
 }
 
 int add_ship_horizontal(player_info *player, int x, int y, int length) {
@@ -183,8 +210,9 @@ int add_ship_horizontal(player_info *player, int x, int y, int length) {
 
 
     // check to make sure that x and y are on the board (between 0 and 7)
-    // this needs to be in recursive so doesnt run off ^
-    if(!(x >= 0 && x <= 7 && y >= 0 && y <= 7)) {
+    // this needs to be in recursive so doesnt run off ^W
+
+    if(!((x >= 0 && x <= 8) || (y >= 0 && y <= 8))) {
         return -1;
     }
 
@@ -206,7 +234,7 @@ int add_ship_horizontal(player_info *player, int x, int y, int length) {
     length--;
 
     // recursively call add_ship_horizontal
-    if(length == 0) {
+    if(length != 0) {
         add_ship_horizontal(player, x, y, length);
     }
 
@@ -220,7 +248,7 @@ int add_ship_vertical(player_info *player, int x, int y, int length) {
 
     // check to make sure that x and y are on the board (between 0 and 7)
     // this needs to be in recursive so doesnt run off ^
-    if(!(x >= 0 && x <= 7 && y >= 0 && y <= 7)) {
+    if(!((x >= 0 && x <= 8) || (y >= 0 && y <= 8))) {
         return -1;
     }
 
@@ -242,7 +270,7 @@ int add_ship_vertical(player_info *player, int x, int y, int length) {
     length--;
 
     // recursively call add_ship_horizontal
-    if(length == 0) {
+    if(length != 0) {
         add_ship_vertical(player, x, y, length);
     }
 
