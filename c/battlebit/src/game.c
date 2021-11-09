@@ -102,6 +102,11 @@ int game_load_board(struct game *game, int player, char * spec) {
 
     //    determine if length of a spec is fine (15 chars)
     //    strlen()
+
+    if(spec == NULL) {
+        return -1;
+    }
+
     if(strlen(spec) != 15) {
         return -1;
     }
@@ -112,8 +117,13 @@ int game_load_board(struct game *game, int player, char * spec) {
         char ship = *(current + i);
         char col = *(current + 1 + i);
         char row = *(current + 2 + i);
-        int colInt = atoi(&col);
-        int rowInt = atoi(&row);
+//        char two = '3';
+//        int twoInt = atoi(&two);
+        int colInt = col - 48;
+        int rowInt = row - 48;
+
+//        convert ascii to 0 = 48, 3 = 51,
+//          deduct 48 from value
 
         for (int i = 0; i < possible; i++) {
             if(ship == used[i]) {
@@ -179,6 +189,10 @@ int add_ship_horizontal(player_info *player, int x, int y, int length) {
     // check to make sure that x and y are on the board (between 0 and 7)
     // this needs to be in recursive so doesnt run off ^W
 
+    if(length == 0) {
+        return 1;
+    }
+
     if(!((x >= 0 && x <= 8) || (y >= 0 && y <= 8))) {
         return -1;
     }
@@ -212,6 +226,10 @@ int add_ship_vertical(player_info *player, int x, int y, int length) {
     // implement this as part of Step 2
     // returns 1 if the ship can be added, -1 if not
     // hint: this can be defined recursively
+
+    if(length == 0) {
+        return 1;
+    }
 
     // check to make sure that x and y are on the board (between 0 and 7)
     // this needs to be in recursive so doesnt run off ^
