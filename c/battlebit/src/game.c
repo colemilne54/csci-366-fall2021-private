@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <string.h>
 #include "game.h"
 
 // STEP 9 - Synchronization: the GAME structure will be accessed by both players interacting
@@ -93,32 +94,55 @@ int game_load_board(struct game *game, int player, char * spec) {
     //
     // if it is invalid, you should return -1
 
+    player_info *playerInfo = &game->players[player];
+    const int possible = 10;
+    char used[possible];
+    int count = 0;
 
 //  bump loop by 3 everytime
-//    determine if length of a spec is fine (15 chars)
-//    strlen()
-//    char * current = spec;
-//    char ship = *current;
-//    char col = *(current + 1);
-//    char row = *(current + 2);
-//    do this in a loop
-//
-//    int colInt = 0; //somthing something
-//    int rowInt = 0; //something something
-//
-//    if (add_ship_horizonatl (playerInfo, colInt, rowInt, length) == -1) {
-//             return -1;
-//    }
-//
-//    player_info *playerInfo = &game->players[player];
-//
-//
-//    checks:
-//    keep track of ships we've seen
-//
-//    call add shi phoriz and vert
-//    if -1 return -1
+    while(1 == 1) {
+        //    determine if length of a spec is fine (15 chars)
+        //    strlen()
+        if(strlen(spec) != 15) {
+            return -1;
+        }
 
+        // do this in a loop
+        char * current = spec;
+        char ship = *current;
+        char col = *(current + 1);
+        char row = *(current + 2);
+
+
+        int colInt = (int)col;
+        int rowInt = (int)row;
+
+        for (int i = 0; i < possible; i++) {
+            if(ship == used[i]) {
+                return -1;
+            }
+        }
+
+        if (ship >= 65 && ship <= 90) {
+            if (add_ship_horizontal(playerInfo, colInt, rowInt, length) == -1) {
+                return -1;
+            }
+            used[count] = ship;
+            count++;
+            used[count] = ship + 32;
+            count++;
+        } else if(ship >= 97 && ship <= 122) {
+            if (add_ship_vertical(playerInfo, colInt, rowInt, length) == -1) {
+                return -1;
+            }
+            used[count] = ship;
+            count++;
+            used[count] = ship - 32;
+            count++;
+        } else {
+            return -1;
+        }
+    }
 }
 
 int add_ship_horizontal(player_info *player, int x, int y, int length) {
