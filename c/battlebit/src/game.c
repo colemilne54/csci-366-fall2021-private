@@ -121,26 +121,7 @@ int game_load_board(struct game *game, int player, char * spec) {
             }
         }
 
-//        Carrier - 5 spaces
-//        Battleship - 4 spaces
-//        Destroyer - 3 spaces
-//        Submarine - 3 spaces
-//        PatrolBoat - 2 spaces
-
         if (ship >= 65 && ship <= 90) {
-
-//            if(strcmp(&ship, 'C') == 0) {
-//                length = 5;
-//            } else if(strcmp(&ship, 'B')) {
-//                length = 4;
-//            } else if(strcmp(&ship, 'D') || strcmp(&ship, 'S')) {
-//                length = 3;
-//            } else if(strcmp(&ship, 'P')) {
-//                length = 2;
-//            } else {
-//                return -1;
-//            }
-
             if(ship == 'C') {
                 length = 5;
             } else if(ship == 'B') {
@@ -150,11 +131,10 @@ int game_load_board(struct game *game, int player, char * spec) {
             } else if(ship == 'P') {
                 length = 2;
             } else {
-                return ship;
+                return -1;
             }
-//            TODO: ERROR HERE
 
-
+//            TODO: NEW ERROR
             if (add_ship_horizontal(playerInfo, colInt, rowInt, length) == -1) {
                 return -1;
             }
@@ -163,18 +143,6 @@ int game_load_board(struct game *game, int player, char * spec) {
             used[count] = ship + 32;
             count++;
         } else if(ship >= 97 && ship <= 122) {
-
-//            if(strcmp(&ship, 'c')) {
-//                length = 5;
-//            } else if(strcmp(&ship, 'b')) {
-//                length = 4;
-//            } else if(strcmp(&ship, 'd') || strcmp(&ship, 's')) {
-//                length = 3;
-//            } else if(strcmp(&ship, 'p')) {
-//                length = 2;
-//            } else {
-//                return -1;
-//            }
 
             if(ship == 'c') {
                 length = 5;
@@ -199,7 +167,6 @@ int game_load_board(struct game *game, int player, char * spec) {
             return -1;
         }
     }
-
     return 1;
 }
 
