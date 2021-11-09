@@ -98,22 +98,20 @@ int game_load_board(struct game *game, int player, char * spec) {
     const int possible = 10;
     char used[possible];
     int count = 0;
+    int length;
+
+    //    determine if length of a spec is fine (15 chars)
+    //    strlen()
+    if(strlen(spec) != 15) {
+        return -1;
+    }
 
 //  bump loop by 3 everytime
-    while(1 == 1) {
-        //    determine if length of a spec is fine (15 chars)
-        //    strlen()
-        if(strlen(spec) != 15) {
-            return -1;
-        }
-
-        // do this in a loop
+    for(int i = 0; i < 15; i+=3) {
         char * current = spec;
-        char ship = *current;
-        char col = *(current + 1);
-        char row = *(current + 2);
-
-
+        char ship = *(current + i);
+        char col = *(current + 1 + i);
+        char row = *(current + 2 + i);
         int colInt = (int)col;
         int rowInt = (int)row;
 
@@ -123,7 +121,27 @@ int game_load_board(struct game *game, int player, char * spec) {
             }
         }
 
+//        Carrier - 5 spaces
+//        Battleship - 4 spaces
+//        Destroyer - 3 spaces
+//        Submarine - 3 spaces
+//        PatrolBoat - 2 spaces
+
         if (ship >= 65 && ship <= 90) {
+
+            if(ship == "C") {
+                length = 5;
+            } else if(ship == "B") {
+                length = 4;
+            } else if(ship == "D" || ship == "S") {
+                length = 3;
+            } else if(ship == "P") {
+                length = 2;
+            } else {
+                return -1;
+            }
+
+
             if (add_ship_horizontal(playerInfo, colInt, rowInt, length) == -1) {
                 return -1;
             }
@@ -132,6 +150,19 @@ int game_load_board(struct game *game, int player, char * spec) {
             used[count] = ship + 32;
             count++;
         } else if(ship >= 97 && ship <= 122) {
+
+            if(ship == "c") {
+                length = 5;
+            } else if(ship == "b") {
+                length = 4;
+            } else if(ship == "d" || ship == "s") {
+                length = 3;
+            } else if(ship == "p") {
+                length = 2;
+            } else {
+                return -1;
+            }
+
             if (add_ship_vertical(playerInfo, colInt, rowInt, length) == -1) {
                 return -1;
             }
