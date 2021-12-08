@@ -136,8 +136,27 @@ void repl_print_hits(struct player_info *player_info, struct char_buff *buffer) 
     // a given spot and it was a hit, print 'H', if it was a miss, print 'M'.  If
     // no shot was taken at a position, print a space character ' '
 
-//    double loop
-//    unsigned long long int mask = xy_to_bitval(x, y);
-//    player_info->shots;
-//    player_info->hits;
+    unsigned long long int shots = player_info->shots;
+    unsigned long long int hits = player_info->hits;
+
+    printf("shots: %llu \n", shots);
+    printf("hits: %llu \n", hits);
+
+//    cb_append(buffer, "  0 1 2 3 4 5 6 7 \n");
+//    for (int i = 0; i < 8; i++) {
+//        cb_append_int(buffer, i);
+//        for (int j = 0; j < 8; j++) {
+//            cb_append(buffer, " ");
+//            unsigned long long int mask = xy_to_bitval(j, i);
+//            unsigned long long int shipQuery = ship & mask;
+//            if (shipQuery == mask) {
+//                cb_append(buffer, "*");
+//            } else if (shipQuery == 0) {
+//                cb_append(buffer, " ");
+//            } else {
+//                printf("error");
+//            }
+//        }
+//        cb_append(buffer, " \n");
+//    }
 }

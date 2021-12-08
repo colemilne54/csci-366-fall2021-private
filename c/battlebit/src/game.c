@@ -42,22 +42,53 @@ int game_fire(game *game, int player, int x, int y) {
     //  If the opponents ships value is 0, they have no remaining ships, and you should set the game state to
     //  PLAYER_1_WINS or PLAYER_2_WINS depending on who won.
 
-////    notes:
-//    player_info *playerFiring = &game->players[player];
-//    unsigned long long int mask = xy_to_bitval(x, y);
-//    playerFiring->shots;
-//
-////    flip int player in array. needs to go both ways
-//    player_info *playerBeingFiredAt = &game->players[TODO: flip from player firing];
-//
-//    playerBeingFiredAt->ships; //test this value using mask
-//
-//    playerFiring->hits;
-//
+//    notes:
+//    flip int player in array. needs to go both ways
+
+    if(x >= 8 || y >= 8 || y < 0 || x < 0) {
+        return 0;
+    }
+
+    if(player == 0) {
+        game->status = PLAYER_0_TURN;
+    } else if(player == 1) {
+        game->status = PLAYER_1_TURN;
+    }
+
+    player_info *playerBeingFiredAt = &game->players[!(player)];
+    player_info *playerFiring = &game->players[player];
+    unsigned long long int mask = xy_to_bitval(x, y);
+    unsigned long long int oShots = playerFiring->shots; // update shots value
+    unsigned long long int dShips = playerBeingFiredAt->ships; // reference of ships, also need to update
+    unsigned long long int oHits = playerFiring->hits; // update hits
+
+    playerFiring->shots = oShots | mask;
+
 ////    if hit then flip
 //    playerBeingFiredAt->ships;
-//
-////    dont use ints, use ull
+
+    unsigned long long int shipResult = dShips & mask;
+    if (shipResult == mask) {
+        playerFiring->hits = oHits | mask;
+        playerBeingFiredAt->ships = dShips - mask;
+        return 1;
+    } else if (shipResult == 0) {
+        return 0;
+    } else {
+        printf("error");
+    }
+
+//    dont use ints, use ull
+
+    if(playerBeingFiredAt->ships == 0) {
+        if(player == 0) {
+            game->status = PLAYER_0_WINS;
+        } else if(player == 1) {
+            game->status = PLAYER_1_WINS;
+        }
+    }
+
+
 
 }
 
@@ -111,6 +142,8 @@ int game_load_board(struct game *game, int player, char * spec) {
     // slot and return 1
     //
     // if it is invalid, you should return -1
+
+
 
     player_info *playerInfo = &game->players[player];
     const int possible = 10;
@@ -194,6 +227,11 @@ int game_load_board(struct game *game, int player, char * spec) {
         } else {
             return -1;
         }
+    }
+    if(player == 1) {
+        game->status = PLAYER_0_TURN;
+    } else if(player == 0) {
+        game->status = CREATED;
     }
     return 1;
 }
