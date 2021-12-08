@@ -41,6 +41,24 @@ int game_fire(game *game, int player, int x, int y) {
     //
     //  If the opponents ships value is 0, they have no remaining ships, and you should set the game state to
     //  PLAYER_1_WINS or PLAYER_2_WINS depending on who won.
+
+////    notes:
+//    player_info *playerFiring = &game->players[player];
+//    unsigned long long int mask = xy_to_bitval(x, y);
+//    playerFiring->shots;
+//
+////    flip int player in array. needs to go both ways
+//    player_info *playerBeingFiredAt = &game->players[TODO: flip from player firing];
+//
+//    playerBeingFiredAt->ships; //test this value using mask
+//
+//    playerFiring->hits;
+//
+////    if hit then flip
+//    playerBeingFiredAt->ships;
+//
+////    dont use ints, use ull
+
 }
 
 unsigned long long int xy_to_bitval(int x, int y) {
