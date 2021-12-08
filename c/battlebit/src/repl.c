@@ -109,8 +109,11 @@ void repl_print_ships(player_info *player_info, char_buff *buffer) {
 //    player_info->ships;
 // i = y, j = x
     unsigned long long int ship = player_info->ships;
+    cb_append(buffer, "  0 1 2 3 4 5 6 7 \n");
     for (int i = 0; i < 8; i++) {
-        for (int j = 0; j < 8; i++) {
+        cb_append_int(buffer, i);
+        for (int j = 0; j < 8; j++) {
+            cb_append(buffer, " ");
             unsigned long long int mask = xy_to_bitval(j, i);
             unsigned long long int shipQuery = ship & mask;
             if (shipQuery == mask) {
@@ -121,6 +124,7 @@ void repl_print_ships(player_info *player_info, char_buff *buffer) {
                 printf("error");
             }
         }
+        cb_append(buffer, " \n");
     }
 }
 
