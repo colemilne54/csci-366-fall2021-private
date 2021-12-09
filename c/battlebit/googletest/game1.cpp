@@ -92,6 +92,7 @@ TEST(game_load_board,empty_spec){
     //EXPECT_TRUE(strcmp("Baz", "Baz") == 0);
     ASSERT_EQ(game_load_board(gameon,0,NULL),-1);
 }
+
 TEST(game_load_board,incomplete_spec){
     game_init();
     struct game * gameon = game_get_current();
@@ -122,6 +123,7 @@ TEST(game_load_board,incomplete_spec){
     spec = "C00b02D23S47p01";//invalid spec- vertical Overlaps
     ASSERT_EQ(game_load_board(gameon,0,spec),-1);
 }
+
 TEST(game_load_board,valid_spec) {
     game_init();
     struct game *gameon = game_get_current();
