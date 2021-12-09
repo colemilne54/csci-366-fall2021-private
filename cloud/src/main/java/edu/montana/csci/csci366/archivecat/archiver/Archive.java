@@ -53,10 +53,12 @@ public class Archive {
 
     public String computeSHA1(String url) {
         // TODO - implement
+        return "";
     }
 
     public String saveFile(String fileName, byte[] body) throws IOException {
         // safe the content to the archive root, followed by the name of this archive folder, followed by the file name
+        return "";
     }
 
     public String getRoot() {
