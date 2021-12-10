@@ -141,8 +141,8 @@ void repl_print_hits(struct player_info *player_info, struct char_buff *buffer) 
 
 //    printf("%llu\n", hits);
 //    printf("%llu\n", shots);
-
-    cb_append(buffer, " 0 1 2 3 4 5 6 7 \n");
+//    cb_reset(buffer);
+    cb_append(buffer, "  0 1 2 3 4 5 6 7 \n");
     for (int i = 0; i < 8; i++) {
         cb_append_int(buffer, i);
         for (int j = 0; j < 8; j++) {
@@ -155,7 +155,7 @@ void repl_print_hits(struct player_info *player_info, struct char_buff *buffer) 
             } else if (shotsQuery == mask) {
                 cb_append(buffer, "M");
             } else {
-                printf(" ");
+                cb_append(buffer, " ");
             }
         }
         cb_append(buffer, " \n");
