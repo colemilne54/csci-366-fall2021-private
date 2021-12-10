@@ -139,24 +139,25 @@ void repl_print_hits(struct player_info *player_info, struct char_buff *buffer) 
     unsigned long long int shots = player_info->shots;
     unsigned long long int hits = player_info->hits;
 
-    printf("shots: %llu \n", shots);
-    printf("hits: %llu \n", hits);
+//    printf("%llu\n", hits);
+//    printf("%llu\n", shots);
 
-//    cb_append(buffer, "  0 1 2 3 4 5 6 7 \n");
-//    for (int i = 0; i < 8; i++) {
-//        cb_append_int(buffer, i);
-//        for (int j = 0; j < 8; j++) {
-//            cb_append(buffer, " ");
-//            unsigned long long int mask = xy_to_bitval(j, i);
-//            unsigned long long int shipQuery = ship & mask;
-//            if (shipQuery == mask) {
-//                cb_append(buffer, "*");
-//            } else if (shipQuery == 0) {
-//                cb_append(buffer, " ");
-//            } else {
-//                printf("error");
-//            }
-//        }
-//        cb_append(buffer, " \n");
-//    }
+    cb_append(buffer, " 0 1 2 3 4 5 6 7 \n");
+    for (int i = 0; i < 8; i++) {
+        cb_append_int(buffer, i);
+        for (int j = 0; j < 8; j++) {
+            cb_append(buffer, " ");
+            unsigned long long int mask = xy_to_bitval(j, i);
+            unsigned long long int hitsQuery = hits & mask;
+            unsigned long long int shotsQuery = shots & mask;
+            if (hitsQuery == mask) {
+                cb_append(buffer, "H");
+            } else if (shotsQuery == mask) {
+                cb_append(buffer, "M");
+            } else {
+                printf(" ");
+            }
+        }
+        cb_append(buffer, " \n");
+    }
 }
