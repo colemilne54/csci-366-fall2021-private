@@ -1,6 +1,5 @@
 package edu.montana.csci.csci366.archivecat.archiver;
 
-import edu.montana.csci.csci366.archivecat.archiver.Archive;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
