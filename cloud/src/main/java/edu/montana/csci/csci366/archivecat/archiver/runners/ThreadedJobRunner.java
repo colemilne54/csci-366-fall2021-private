@@ -21,11 +21,11 @@ public class ThreadedJobRunner implements DownloadJobRunner {
                 }
             });
             t.start();
-            try {
-                latch.await();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+        }
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 }

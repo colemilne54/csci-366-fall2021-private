@@ -1,7 +1,5 @@
 package edu.montana.csci.csci366.archivecat.archiver.runners;
 
-import edu.montana.csci.csci366.archivecat.archiver.jobs.DownloadJob;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -13,9 +11,13 @@ public class ThreadedJobRunnerTest {
 
     @Test
     public void ensureAllJobsAreRun() {
+        System.out.println(1);
         ThreadedJobRunner runner = new ThreadedJobRunner();
+        System.out.println(2);
         List<FakeJob> fakeJobs = Arrays.asList(new FakeJob(), new FakeJob(), new FakeJob());
+        System.out.println(3);
         runner.executeJobs(fakeJobs);
+        System.out.println(4);
 
         for (FakeJob fakeJob : fakeJobs) {
             assertTrue(fakeJob.isFinished());
