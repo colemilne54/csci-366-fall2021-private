@@ -71,25 +71,42 @@ int game_fire(game *game, int player, int x, int y) {
     if (shipResult == mask) {
         playerFiring->hits = oHits | mask;
         playerBeingFiredAt->ships = dShips - mask;
+//        printf("shots: %llu \n", oShots);
+//        printf("hits: %llu \n", oHits);
+
+//      WAS A PROBLEM BECAUSE CHECKED AFTER BOTH RETURNS!
+
+        if(player == 1) {
+            game->status = PLAYER_0_TURN;
+        } else if(player == 0) {
+            game->status = PLAYER_1_TURN;
+        }
+
+        if(playerBeingFiredAt->ships == 0) {
+            if(player == 0) {
+                game->status = PLAYER_0_WINS;
+            } else if(player == 1) {
+                game->status = PLAYER_1_WINS;
+            }
+        }
+
         return 1;
     } else if (shipResult == 0) {
+
+        if(player == 1) {
+            game->status = PLAYER_0_TURN;
+        } else if(player == 0) {
+            game->status = PLAYER_1_TURN;
+        }
+
         return 0;
     } else {
         printf("error");
     }
 
+
+
 //    dont use ints, use ull
-
-    if(playerBeingFiredAt->ships == 0) {
-        if(player == 0) {
-            game->status = PLAYER_0_WINS;
-        } else if(player == 1) {
-            game->status = PLAYER_1_WINS;
-        }
-    }
-
-
-
 }
 
 unsigned long long int xy_to_bitval(int x, int y) {
@@ -146,10 +163,19 @@ int game_load_board(struct game *game, int player, char * spec) {
 
 
     player_info *playerInfo = &game->players[player];
-    const int possible = 10;
-    char used[possible];
+//    const int possible = 10;
+//    char used[possible];
     int count = 0;
     int length;
+
+//    use this instead of used[possible] as per Prof Gross suggestion
+    int seenCarrier = 0;
+    int seenBattleship = 0;
+    int seenDestroyer = 0;
+    int seenSub = 0;
+    int seenPatrol = 0;
+
+
 
     //    determine if length of a spec is fine (15 chars)
     //    strlen()
@@ -158,9 +184,11 @@ int game_load_board(struct game *game, int player, char * spec) {
         return -1;
     }
 
-    if(strlen(spec) != 15) {
-        return -1;
-    }
+//    if(strlen(spec) != 15) {
+//        return -1;
+//    }
+
+    int countSpec = 0;
 
 //  bump loop by 3 everytime
     for(int i = 0; i < 15; i+=3) {
@@ -176,21 +204,43 @@ int game_load_board(struct game *game, int player, char * spec) {
 //        convert ascii to 0 = 48, 3 = 51,
 //          deduct 48 from value
 
-        for (int i = 0; i < possible; i++) {
-            if(ship == used[i]) {
-                return -1;
-            }
-        }
+//        for (int i = 0; i < possible; i++) {
+//            if(ship == used[i]) {
+//                return -1;
+//            }
+//        }
 
         if (ship >= 65 && ship <= 90) {
             if(ship == 'C') {
                 length = 5;
+                if(seenCarrier == 1) {
+                    return -1;
+                }
+                seenCarrier = 1;
             } else if(ship == 'B') {
                 length = 4;
-            } else if(ship == 'D' || ship == 'S') {
+                if(seenBattleship == 1) {
+                    return -1;
+                }
+                seenBattleship = 1;
+            } else if(ship == 'D') {
                 length = 3;
+                if(seenDestroyer == 1) {
+                    return -1;
+                }
+                seenDestroyer = 1;
+            } else if(ship == 'S') {
+                length = 3;
+                if(seenSub == 1) {
+                    return -1;
+                }
+                seenSub = 1;
             } else if(ship == 'P') {
                 length = 2;
+                if(seenPatrol == 1) {
+                    return -1;
+                }
+                seenPatrol = 1;
             } else {
                 return -1;
             }
@@ -199,20 +249,43 @@ int game_load_board(struct game *game, int player, char * spec) {
             if (add_ship_horizontal(playerInfo, colInt, rowInt, length) == -1) {
                 return -1;
             }
-            used[count] = ship;
-            count++;
-            used[count] = ship + 32;
-            count++;
+//            used[count] = ship;
+//            count++;
+//            used[count] = ship + 32;
+//            count++;
+            countSpec += 3;
         } else if(ship >= 97 && ship <= 122) {
 
             if(ship == 'c') {
                 length = 5;
+                if(seenCarrier == 1) {
+                    return -1;
+                }
+                seenCarrier = 1;
             } else if(ship == 'b') {
                 length = 4;
-            } else if(ship == 'd' || ship == 's') {
+                if(seenBattleship == 1) {
+                    return -1;
+                }
+                seenBattleship = 1;
+            } else if(ship == 'd') {
                 length = 3;
+                if(seenDestroyer == 1) {
+                    return -1;
+                }
+                seenDestroyer = 1;
+            } else if(ship == 's') {
+                length = 3;
+                if(seenSub == 1) {
+                    return -1;
+                }
+                seenSub = 1;
             } else if(ship == 'p') {
                 length = 2;
+                if(seenPatrol == 1) {
+                    return -1;
+                }
+                seenPatrol = 1;
             } else {
                 return -1;
             }
@@ -220,14 +293,20 @@ int game_load_board(struct game *game, int player, char * spec) {
             if (add_ship_vertical(playerInfo, colInt, rowInt, length) == -1) {
                 return -1;
             }
-            used[count] = ship;
-            count++;
-            used[count] = ship - 32;
-            count++;
+//            used[count] = ship;
+//            count++;
+//            used[count] = ship - 32;
+//            count++;
+            countSpec += 3;
         } else {
             return -1;
         }
     }
+
+    if(countSpec != 15) {
+        return -1;
+    }
+
     if(player == 1) {
         game->status = PLAYER_0_TURN;
     } else if(player == 0) {
