@@ -18,7 +18,7 @@ public class ImageDownloadJob extends AbstractDownloadJob {
 
     @Override
     public void downloadResource() throws Exception {
-        // TODO implement - hint: use the 'Content-Type' header of the
+        // TODODONE implement - hint: use the 'Content-Type' header of the
         //                  response to determine the type of image and
         //                  give it the correct file ending
 
@@ -42,7 +42,7 @@ public class ImageDownloadJob extends AbstractDownloadJob {
 
     @Override
     protected String getURL() {
-//        TODO change src?
+//        TODODONE change src?
         return getElement().attr("abs:src");
     }
 }

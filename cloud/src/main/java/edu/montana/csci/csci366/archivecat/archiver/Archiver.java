@@ -6,6 +6,7 @@ import edu.montana.csci.csci366.archivecat.archiver.runners.DownloadJobRunner;
 import edu.montana.csci.csci366.archivecat.archiver.runners.InThreadJobRunner;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,9 +42,33 @@ public class Archiver {
         // download the content
         var doc = Jsoup.connect(_url).get();
 
-        //TODO - iterate over all the images, links and javascript files and
+        //TODODONE - iterate over all the images, links and javascript files and
         // create download jobs for them
-        List<? extends DownloadJob> downloadJobs = new LinkedList<>();
+        List<DownloadJob> downloadJobs = new LinkedList<>();
+
+        Elements links = doc.select("link");
+        for (Element link : links) {
+            AbstractDownloadJob download = AbstractDownloadJob.getJobFor(link, archive);
+            if (download != null) {
+                downloadJobs.add(download);
+            }
+        }
+
+        Elements scripts = doc.select("script");
+        for (Element script : scripts) {
+            AbstractDownloadJob download = AbstractDownloadJob.getJobFor(script, archive);
+            if (download != null) {
+                downloadJobs.add(download);
+            }
+        }
+
+        Elements imgs = doc.select("img");
+        for (Element img : imgs) {
+            AbstractDownloadJob download = AbstractDownloadJob.getJobFor(img, archive);
+            if (download != null) {
+                downloadJobs.add(download);
+            }
+        }
 
         // submit download jobs
         _jobExecutor.executeJobs(downloadJobs);
